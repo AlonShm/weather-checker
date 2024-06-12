@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "weather checker application"
 version = "0.1.0"
-description = ""
+description = "An application for checking the weather worldwide"
 authors = ["Alon Shmueli <alonshmu@gmail.com>"]
 readme = "README.md"
 package-mode = false
