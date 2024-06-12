@@ -4,7 +4,7 @@ from handlers.settings_handler import *
 def check_weather(city):
 	if not city:
 		if 'default_location' not in settings:
-			print(f"No default location found in you settings, Please set default location by menu option 1")
+			print(f"No default location found in your settings, Please set default location by menu option 1")
 			return
 		city = settings["default_location"]
 	
