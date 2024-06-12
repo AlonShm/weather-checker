@@ -1,6 +1,5 @@
-import weather_handler
-import dates_handler
-from settings_handler import *
+from handlers import dates_handler, weather_handler
+from handlers.settings_handler import *
 
 def check_weather(city):
 	if not city:
