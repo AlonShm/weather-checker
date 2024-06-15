@@ -87,10 +87,9 @@ def run_streamlit():
 	)
 	
 	if menu == 'Welcome':
-		current_dir = os.getcwd()
 		st.title('Welcome')
 		st.write('Please choose one of the options in the menu')
-		st.image(f"{current_dir}/assets/weather-image.jpeg", caption="DALL-AI", width=850)
+		st.image(f"assets/weather-image.jpeg", caption="DALL-AI", width=850)
 	
 	
 	elif menu == 'Your Current Settings':
