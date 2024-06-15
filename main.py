@@ -1,3 +1,5 @@
+import streamlit as st
+
 from handlers import dates_handler, weather_handler
 from handlers.settings_handler import *
 
@@ -34,7 +36,7 @@ def check_weather_for_favorite_location():
 	else:
 		print("No favorite locations found in your settings")
 
-def main_menu():
+def main():
 	load_settings()
 	while True:
 		print("\nMain Menu:")
@@ -66,4 +68,4 @@ def main_menu():
 		else:
 			print("Invalid choice. Please try again.")
 
-main_menu()
+main()
