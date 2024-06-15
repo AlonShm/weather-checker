@@ -38,44 +38,79 @@ def check_weather_for_favorite_location():
 			print("Invalid choice")
 	else:
 		print("No favorite locations found in your settings")
+		
+def run_terminal():
+	load_settings()
+	while True:
+		print("\nWeather Checker Application")
+		print("\nMain Menu:")
+		print("1. Your Current Settings")
+		print("2. Set Default Location")
+		print("3. Set Temperature Units")
+		print("4. Add Favorite Location")
+		print("5. Check Weather For Favorites")
+		print("6. Check Weather For A New or Default Location")
+		print("7. Exit")
+		choice = input("Enter your choice: ")
+		
+		if choice == '1':
+			show_settings()
+		elif choice == '2':
+			set_default_location()
+		elif choice == '3':
+			set_temperature_units()
+		elif choice == '4':
+			add_favorite_location()
+		elif choice == '5':
+			check_weather_for_favorite_location()
+		elif choice == '6':
+			city = input("Enter a city name: ")
+			check_weather(city)
+		elif choice == '7':
+			print("See you next time.")
+			break
+		else:
+			print("Invalid choice. Please try again.")
+			
+def run_streamlit():
+	st.markdown("<h1 style='text-align: right;'>Weather Checker Application</h1>", unsafe_allow_html=True)
+	
+	menu = st.sidebar.selectbox(
+		'Available Options:',
+		['Welcome',
+		 'Your Current Settings',
+		 'Set Default Location',
+		 'Set Temperature Units',
+		 'Add Favorite Location',
+		 'Check Weather For Favorites',
+		 'Check Weather For A New or Default Location']
+	)
+	
+	if menu == 'Welcome':
+		current_dir = os.getcwd()
+		st.title('Welcome')
+		st.write('Please choose one of the options in the menu')
+		st.image(f"{current_dir}/assets/weather-image.jpeg", caption="DALL-AI", width=850)
+	
+	
+	elif menu == 'Your Current Settings':
+		st.title('Your Current Settings')
+		st.write('Welcome to Your Current Settings page!')
+	elif menu == 'Set Default Location':
+		st.title('Set Default Location')
+		st.write('This is the Set Default Location page.')
+	
+	elif menu == 'Set Temperature Units':
+		st.title('Set Temperature Units')
+		st.write('This is the Set Temperature Units page!')
+	
+	
 
 def main():
 	if os.getenv('RUN_MODE') == 'streamlit':
-		st.write("""
-		# My first app
-		Hello *world!*
-		""")
+		run_streamlit()
 	else:
-		load_settings()
-		while True:
-			print("\nMain Menu:")
-			print("1. Your Current Settings")
-			print("2. Set Default Location")
-			print("3. Set Temperature Units")
-			print("4. Add Favorite Location")
-			print("5. Check Weather For Favorites")
-			print("6. Check Weather For A New or Default Location")
-			print("7. Exit")
-			choice = input("Enter your choice: ")
-			
-			if choice == '1':
-				show_settings()
-			elif choice == '2':
-				set_default_location()
-			elif choice == '3':
-				set_temperature_units()
-			elif choice == '4':
-				add_favorite_location()
-			elif choice == '5':
-				check_weather_for_favorite_location()
-			elif choice == '6':
-				city = input("Enter a city name: ")
-				check_weather(city)
-			elif choice == '7':
-				print("See you next time.")
-				break
-			else:
-				print("Invalid choice. Please try again.")
+		run_terminal()
 
 load_dotenv()
 main()
