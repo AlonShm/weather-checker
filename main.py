@@ -1,17 +1,17 @@
+import streamlit as st
+import pandas as pd
 from dotenv import load_dotenv
 import os
-
-import streamlit as st
 
 from handlers import dates_handler, weather_handler
 from handlers.settings_handler import *
 
 def check_weather(city):
 	if not city:
-		if 'default_location' not in settings:
+		if 'default_location' not in get_settings():
 			print(f"No default location found in your settings, Please set default location by menu option 1")
 			return
-		city = settings["default_location"]
+		city = get_settings()["default_location"]
 	
 	weather_data = weather_handler.get_weather(city)
 	
@@ -26,14 +26,14 @@ def check_weather(city):
 def check_weather_for_favorite_location():
 	locations_display = [f"{index}. {location}"
 	                     for index, location in
-	                     enumerate(settings.get('favorite_locations', []), start=1)]
+	                     enumerate(get_settings().get('favorite_locations', []), start=1)]
 	if locations_display:
 		print("Your Favorite Locations:")
 		for location in locations_display:
 			print(f"{location}")
 		index = input("Which location to check for weather? (Choose from the list): ")
-		if index and index.isdigit and 0 < int(index) <= len(settings['favorite_locations']):
-			check_weather(settings['favorite_locations'][int(index) - 1])
+		if index and index.isdigit and 0 < int(index) <= len(get_settings()['favorite_locations']):
+			check_weather(get_settings()['favorite_locations'][int(index) - 1])
 		else:
 			print("Invalid choice")
 	else:
@@ -56,11 +56,14 @@ def run_terminal():
 		if choice == '1':
 			show_settings()
 		elif choice == '2':
-			set_default_location()
+			default_location = input("Enter default location: ")
+			set_default_location(default_location)
 		elif choice == '3':
-			set_temperature_units()
+			temperature_units = input("Enter temperature units (Celsius or Farenheit): ")
+			set_temperature_units(temperature_units)
 		elif choice == '4':
-			add_favorite_location()
+			favorite_location = input("Enter a new favorite location: ")
+			add_favorite_location(favorite_location)
 		elif choice == '5':
 			check_weather_for_favorite_location()
 		elif choice == '6':
@@ -89,23 +92,81 @@ def run_streamlit():
 	if menu == 'Welcome':
 		st.title('Welcome')
 		st.write('Please choose one of the options in the menu')
-		st.image(f"assets/weather-image.jpeg", caption="DALL-AI", width=850)
-	
+		st.image("resources/weather-image.jpeg", caption="DALL-AI", width=850)
 	
 	elif menu == 'Your Current Settings':
 		st.title('Your Current Settings')
-		st.write('Welcome to Your Current Settings page!')
+		if get_settings():
+			df = pd.json_normalize(get_settings())
+			if df.empty:
+				st.write('You did not set any settings yet')
+			st.dataframe(df)
+		else:
+			st.write("No settings file was found")
+			
 	elif menu == 'Set Default Location':
 		st.title('Set Default Location')
-		st.write('This is the Set Default Location page.')
+		default_location = st.text_input("Enter default location:")
+		if st.button("Save"):
+			set_default_location(default_location)
+			st.write(f'Default location set to: {default_location}')
 	
 	elif menu == 'Set Temperature Units':
 		st.title('Set Temperature Units')
-		st.write('This is the Set Temperature Units page!')
+		temperature_units = st.text_input("Enter temperature units (Celsius or Farenheit):")
+		if st.button("Save"):
+			set_temperature_units(temperature_units)
+			st.write(f'Temperature Units set to {temperature_units}')
+			
+	elif menu == 'Add Favorite Location':
+		st.title('Add Favorite Location')
+		favorite_location = st.text_input("Enter a new favorite location:")
+		if st.button("Save"):
+			add_favorite_location(favorite_location)
+			st.write(f'Favorite location added: {favorite_location}')
 	
-	
+	elif menu == 'Check Weather For Favorites':
+		st.title('Check Weather For Favorites')
+		if get_settings() and 'favorite_locations' in get_settings():
+			setting_keys = ['-- Please Select --'] + list(get_settings()['favorite_locations'])
+			selected_favorite = st.selectbox('Which location to check for weather? (Choose from the list):', setting_keys)
+			
+			if selected_favorite != '-- Please Select --':
+				weather_data = weather_handler.get_weather(selected_favorite)
+			
+				if weather_data:
+					dates_handler.display_date_time_streamlit("Israel", selected_favorite)
+					st.write("\n")
+					st.title(f"The weather conditions in {selected_favorite}:")
+					weather_handler.display_weather_data_streamlit(weather_data)
+				else:
+					st.write("Failed to retrieve weather data")
+		else:
+			st.write("No settings file was found")
+		
+	elif menu == 'Check Weather For A New or Default Location':
+		st.title('Check Weather For A New or Default Location')
+		city = st.text_input("Enter city name (or leave empty for default location):")
+		
+		if st.button("Check"):
+			if not city:
+				if 'default_location' not in get_settings():
+					st.write("No default location found in your settings, Please set default location by menu option")
+					return
+				city = get_settings()["default_location"]
+			
+			weather_data = weather_handler.get_weather(city)
+				
+			if weather_data:
+				dates_handler.display_date_time_streamlit("Israel", city)
+				st.write("\n")
+				st.title(f"The weather conditions in {city}:")
+				weather_handler.display_weather_data_streamlit(weather_data)
+			else:
+				st.write("Failed to retrieve weather data")
 
 def main():
+	load_settings()
 	if os.getenv('RUN_MODE') == 'streamlit':
 		run_streamlit()
 	else:

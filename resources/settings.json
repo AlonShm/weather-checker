@@ -1,0 +1,10 @@
+{
+    "default_location": "Tel Aviv",
+    "temperature_units": "Farenheit",
+    "favorite_locations": [
+        "Yavne",
+        "Haifa",
+        "America/New York",
+        "Japan"
+    ]
+}
