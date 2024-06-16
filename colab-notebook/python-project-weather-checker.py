@@ -44,7 +44,7 @@ def set_default_location():
 
 def set_temperature_units():
   global settings
-  temperature_units = input("Enter temperature units (Celsius or Farenheit): ")
+  temperature_units = input("Enter temperature units (Celsius or Fahrenheit): ")
   if temperature_units:
     settings['temperature_units'] = temperature_units
     save_settings()

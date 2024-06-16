@@ -59,7 +59,7 @@ def run_terminal():
 			default_location = input("Enter default location: ")
 			set_default_location(default_location)
 		elif choice == '3':
-			temperature_units = input("Enter temperature units (Celsius or Farenheit): ")
+			temperature_units = input("Enter temperature units (Celsius or Fahrenheit): ")
 			set_temperature_units(temperature_units)
 		elif choice == '4':
 			favorite_location = input("Enter a new favorite location: ")
@@ -113,7 +113,7 @@ def run_streamlit():
 	
 	elif menu == 'Set Temperature Units':
 		st.title('Set Temperature Units')
-		temperature_units = st.text_input("Enter temperature units (Celsius or Farenheit):")
+		temperature_units = st.text_input("Enter temperature units (Celsius or Fahrenheit):")
 		if st.button("Save"):
 			set_temperature_units(temperature_units)
 			st.write(f'Temperature Units set to {temperature_units}')

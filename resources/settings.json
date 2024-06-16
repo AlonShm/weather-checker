@@ -1,10 +1,22 @@
 {
-    "default_location": "Tel Aviv",
-    "temperature_units": "Farenheit",
+    "default_location": "Chicago",
+    "temperature_units": "Fahrenheit",
     "favorite_locations": [
-        "Yavne",
-        "Haifa",
-        "America/New York",
-        "Japan"
+        "Tel Aviv",
+        "New York",
+        "Los Angeles",
+        "Chicago",
+        "London",
+        "Paris",
+        "Berlin",
+        "Tokyo",
+        "Sydney",
+        "Melbourne",
+        "Toronto",
+        "Vancouver",
+        "Moscow",
+        "Beijing",
+        "Shanghai",
+        "Nairobi"
     ]
 }
