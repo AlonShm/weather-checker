@@ -1,6 +1,10 @@
 # weather-checker
 Python Project: Weather Checker Application
 
+The application is available on Streamlit service and can be accessed by this URL:
+
+https://weather-checker-hjgtfmfvfs9au4p6wyvx8x.streamlit.app/
+
 # This application supports two running modes : 
 *Terminal*
 
@@ -27,3 +31,13 @@ Python Project: Weather Checker Application
 *** You already have a settings file as default and can add more settings by using the menu options
 
 
+# Project Structure
+- colab-notebook - contains colab notebook with the same functionality as the pycharm project
+
+- handlers - contains handler python file for each main logic in the application: dates, settings, weather fetch
+
+- resources - contains the settings json file
+
+- main.py - application starting point
+
+- .env - environment variable for the App. Currently holds the RUN_MODE only

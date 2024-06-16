@@ -93,6 +93,7 @@ def run_streamlit():
 		st.title('Welcome')
 		st.write('Please choose one of the options in the menu')
 		st.image("resources/weather-image.jpeg", caption="DALL-AI", width=850)
+		st.write('By Alon Shmueli (alonshmu@gmail.com)')
 	
 	elif menu == 'Your Current Settings':
 		st.title('Your Current Settings')
